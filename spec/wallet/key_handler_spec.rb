@@ -4,9 +4,6 @@ require_relative '../../lib/wallet/key_handler'
 require 'pathname'
 require 'fileutils'
 
-KEY_DIR = File.expand_path(Pathname.new("#{__dir__}/../tmp/"))
-KEY_FILE = "#{KEY_DIR}/key.txt".freeze
-
 RSpec.describe Wallet::KeyHandler do
   let(:handler) { described_class.new(KEY_DIR) }
 

@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 require 'bitcoin'
+require 'pathname'
 
 Bitcoin.chain_params = :signet
+
+KEY_DIR = File.expand_path(Pathname.new("#{__dir__}/tmp/"))
+KEY_FILE = "#{KEY_DIR}/key.txt".freeze
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

@@ -6,6 +6,7 @@ GEM
     base64 (0.2.0)
     bech32 (1.5.0)
       thor (>= 1.1.0)
+    bigdecimal (3.2.2)
     bip-schnorr (0.7.0)
       ecdsa_ext (~> 0.5.0)
     bitcoinrb (1.8.2)
@@ -25,6 +26,7 @@ GEM
       secp256k1rb (= 0.1.1)
       siphash
       thor
+    csv (3.3.5)
     daemon-spawn (0.4.2)
     diff-lcs (1.6.2)
     ecdsa (1.2.0)
@@ -43,12 +45,19 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
+    httparty (0.23.1)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     iniparse (1.5.0)
     json (2.12.2)
     language_server-protocol (3.17.0.5)
     leb128 (1.0.0)
     lint_roller (1.1.0)
     logger (1.7.0)
+    mini_mime (1.1.5)
+    multi_xml (0.7.2)
+      bigdecimal (~> 3.1)
     murmurhash3 (0.1.7)
     observer (0.1.2)
     parallel (1.27.0)
@@ -113,6 +122,7 @@ PLATFORMS
 
 DEPENDENCIES
   bitcoinrb
+  httparty
   rspec
   rubocop
   rubocop-rspec

@@ -45,6 +45,7 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
+    fileutils (1.7.3)
     httparty (0.23.1)
       csv
       mini_mime (>= 1.0.0)
@@ -113,7 +114,6 @@ PLATFORMS
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin
-  ruby
   x86-linux-gnu
   x86-linux-musl
   x86_64-darwin
@@ -122,6 +122,7 @@ PLATFORMS
 
 DEPENDENCIES
   bitcoinrb
+  fileutils
   httparty
   rspec
   rubocop

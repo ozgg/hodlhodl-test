@@ -1,0 +1,59 @@
+# frozen_string_literal: true
+
+require_relative '../../lib/wallet/key_handler'
+require 'pathname'
+require 'fileutils'
+
+KEY_DIR = File.expand_path(Pathname.new("#{__dir__}/../tmp/"))
+KEY_FILE = "#{KEY_DIR}/key.txt".freeze
+
+RSpec.describe Wallet::KeyHandler do
+  subject { described_class.new(KEY_DIR) }
+
+  describe '#initialize' do
+    it 'sets path to key file' do
+      instance = described_class.new(KEY_DIR)
+      expect(instance.key_file).to eq(KEY_FILE)
+    end
+  end
+
+  describe '#generate_key' do
+    before do
+      FileUtils.rm(KEY_FILE) if File.file?(KEY_FILE)
+    end
+
+    it 'writes new key to file' do
+      subject.generate_key
+      expect(File).to be_file(KEY_FILE)
+    end
+  end
+
+  describe '#load_key' do
+    context 'when key file does not exist' do
+      before do
+        FileUtils.rm(KEY_FILE) if File.file?(KEY_FILE)
+      end
+
+      it 'creates a new file' do
+        subject.load_key
+        expect(File).to be_file(KEY_FILE)
+      end
+    end
+
+    it 'returns an instance of Bitcoin::Key' do
+      expect(subject.load_key).to be_an_instance_of(Bitcoin::Key)
+    end
+  end
+
+  describe '#address' do
+    it 'returns address string' do
+      expect(subject.address).to match(/\A[a-zA-Z0-9]{34}\z/)
+    end
+  end
+
+  describe '#key' do
+    it 'returns an instance of Bitcoin::Key' do
+      expect(subject.key).to be_instance_of(Bitcoin::Key)
+    end
+  end
+end

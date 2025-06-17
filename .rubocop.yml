@@ -1,0 +1,8 @@
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+
+Metrics/MethodLength:
+  CountAsOne: ['heredoc']

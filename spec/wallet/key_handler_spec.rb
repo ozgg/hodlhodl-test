@@ -8,7 +8,7 @@ KEY_DIR = File.expand_path(Pathname.new("#{__dir__}/../tmp/"))
 KEY_FILE = "#{KEY_DIR}/key.txt".freeze
 
 RSpec.describe Wallet::KeyHandler do
-  subject { described_class.new(KEY_DIR) }
+  let(:handler) { described_class.new(KEY_DIR) }
 
   describe '#initialize' do
     it 'sets path to key file' do
@@ -23,7 +23,7 @@ RSpec.describe Wallet::KeyHandler do
     end
 
     it 'writes new key to file' do
-      subject.generate_key
+      handler.generate_key
       expect(File).to be_file(KEY_FILE)
     end
   end
@@ -35,25 +35,25 @@ RSpec.describe Wallet::KeyHandler do
       end
 
       it 'creates a new file' do
-        subject.load_key
+        handler.load_key
         expect(File).to be_file(KEY_FILE)
       end
     end
 
     it 'returns an instance of Bitcoin::Key' do
-      expect(subject.load_key).to be_an_instance_of(Bitcoin::Key)
+      expect(handler.load_key).to be_an_instance_of(Bitcoin::Key)
     end
   end
 
   describe '#address' do
     it 'returns address string' do
-      expect(subject.address).to match(/\A[a-zA-Z0-9]{34}\z/)
+      expect(handler.address).to match(/\A[a-zA-Z0-9]{34}\z/)
     end
   end
 
   describe '#key' do
     it 'returns an instance of Bitcoin::Key' do
-      expect(subject.key).to be_instance_of(Bitcoin::Key)
+      expect(handler.key).to be_instance_of(Bitcoin::Key)
     end
   end
 end

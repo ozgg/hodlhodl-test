@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/wallet/mempool'
-require 'fileutils'
 
 ADDRESS = 'tb1q3rgsupumstc2wr0avgpfjf3un62j90g3d3466k'
 

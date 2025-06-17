@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/wallet/key_handler'
-require 'pathname'
 require 'fileutils'
 
 RSpec.describe Wallet::KeyHandler do

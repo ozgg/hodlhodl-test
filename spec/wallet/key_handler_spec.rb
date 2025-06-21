@@ -42,8 +42,8 @@ RSpec.describe Wallet::KeyHandler do
   end
 
   describe '#address' do
-    it 'returns address string' do
-      expect(handler.address).to match(/\A[a-zA-Z0-9]{34}\z/)
+    it 'returns P2WPKH address string' do
+      expect(handler.address).to match(/\A[a-zA-Z0-9]{42}\z/)
     end
   end
 

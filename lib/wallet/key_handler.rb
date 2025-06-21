@@ -37,11 +37,11 @@ module Wallet
       end
     end
 
-    # Get address for generated key
+    # Get P2WPKH address for generated key
     #
     # @return [String]
     def address
-      key.to_addr
+      key&.to_p2wpkh.to_s
     end
 
     # Get key

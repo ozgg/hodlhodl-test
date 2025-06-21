@@ -1,0 +1,6 @@
+services:
+  wallet:
+    build: .
+    volumes:
+      - ./tmp:/app/tmp
+    entrypoint: ["ruby", "wallet.rb"]

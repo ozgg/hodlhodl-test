@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'bitcoin'
 require_relative 'lib/wallet/mempool'
 require_relative 'lib/wallet/key_handler'
 require_relative 'lib/wallet/transaction_handler'
-# require 'byebug'
 
 Bitcoin.chain_params = :signet
 
@@ -29,7 +30,7 @@ when 'transfer'
     begin
       txid = handler.transfer(to_address, amount_btc)
       puts "Transaction #{txid} sent."
-    rescue => e
+    rescue StandardError => e
       puts "Error: #{e.message}"
     end
   else
@@ -40,6 +41,6 @@ else
     Usage:
       generate: generate new key (rewrites old file)
       balance: show balance
-      transfer [address] [amount]: transfer [amount] BTC to [address]
+      transfer [address] [amount]: transfer [amount] BTC to [address] (P2WPKH)
   DOC
 end

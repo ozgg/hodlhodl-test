@@ -49,15 +49,16 @@ module Wallet
     # Build unsigned transaction
     #
     # @param [String] to_address
-    # @param [Integer] amount
+    # @param [Integer] amount_sats
     # @return [Bitcoin::Tx]
-    def build_unsigned_tx(to_address, amount)
+    def build_unsigned_tx(to_address, amount_sats)
       tx = Bitcoin::Tx.new
       tx.version = 2
 
       @utxos.each { |utxo| tx.in << input(utxo) }
 
-      tx.out << output(amount, to_address)
+      tx.out << output(amount_sats, to_address)
+      tx.out << output(@mempool.balance(@utxos) - amount_sats, @key.to_p2wpkh)
       tx
     end
 

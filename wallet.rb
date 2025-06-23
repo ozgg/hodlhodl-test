@@ -18,7 +18,7 @@ when 'balance'
   address = key_handler.address
   mempool = Wallet::Mempool.new(address)
   puts "Address: #{address}"
-  puts "Balance: #{mempool.balance} SAT"
+  puts "Balance: #{mempool.balance} SAT (#{mempool.confirmed_balance} confirmed)"
 when 'transfer'
   address = key_handler.address
   puts "Address: #{address}"

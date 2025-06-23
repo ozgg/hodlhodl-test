@@ -19,6 +19,11 @@ module Wallet
       list.sum { |u| u['value'] }
     end
 
+    # Get confirmed balance in Satoshi units
+    def confirmed_balance(list = utxo)
+      list.select { |u| u['status']['confirmed'] }.sum { |u| u['value'] }
+    end
+
     # Get UTXO list
     #
     # @see https://mempool.space/signet/docs/api/rest#get-address-utxo

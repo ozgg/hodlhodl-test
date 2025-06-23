@@ -1,0 +1,158 @@
+GET /api/v1/currencies
+Получить список всех валют
+Параметры ответа:
+[
+    {
+        id: integer,
+        blockchain: string,
+        sign: string
+    }
+]
+
+GET /api/v1/rates
+Получить коэффициентов для конверсии и комиссий
+Параметры запроса:
+    in_currency_id: integer
+    out_currency_id: integer
+    from_amount: integer
+Параметры ответа:
+{
+    rate: string,
+    exchange_fee: string,
+    network_fee: string,
+    estimated_delay_min: integer,
+    estimated_delay_max: integer
+}
+
+POST /api/v1/exchange
+Обменять деньги
+Параметры запроса:
+    in_currency_id: integer
+    in_amount: string
+    out_currency_id: integer
+    email: string
+    out_address: string
+Параметры ответа:
+{
+    id: uuid,
+    status: string,
+    message: string,
+    in_address: string    # на этот адрес нужно отправить сумму
+}
+
+GET /api/v1/operations/:uuid
+Посмотреть состояние операции
+Параметры запроса:
+    uuid: string(uuid)
+Параметры ответа:
+{
+    id: uuid,
+    status: string,                 # Статус операции (enum, интерпретация значения — в модели)
+    created_at: string,             # datetime
+    updated_at: string,             # datetime
+    email: string,                  # [виден только администраторам]
+    in_currency_id: integer,        # Входящая валюта [для администраторов]
+    in_currency_name: string,       # Название входящей валюты
+    in_currency_blockchain: string
+    in_wallet_id: integer,          # id Входящий кошелёк (административный, для обмена) [для администраторов]
+    in_address: string,             # Входящий кошелёк (административный, для обмена)
+    amount: string,                 # Входящая сумма
+    out_currency_id: integer,       # Исходящая валюта [для администраторов]
+    out_currency_name: string,      # Название исходящей валюты
+    out_currency_blockchain: string,
+    rate: string,                   # Коэффициент обмена (out_amount = amount * rate)
+    out_wallet_id: string,          # id кошелька получателя [для администраторов]
+    out_address: string,            # Кошелёк получателя
+    out_amount: string,             # Сколько получит получатель
+    exchange_fee: string,           # Комиссия обмена в процентах
+    network_fee: string,            # Комиссия сети в исходящей валюте
+    estimated_delay_min: integer,
+    estimated_delay_max: integer,
+    in_tx_id: string,               # id транзакции при поступлении денег с in_wallet_id
+    out_tx_id: string               # id транзакции при отправке денег на out_wallet_id
+}
+
+GET /api/v1/operations
+Получить список всех операций (только для администраторов)
+Параметры запроса:
+    page: integer     # Номер страницы (по умолчанию 1)
+    date_from: string # Нижняя граница даты создания (необязательный параметр)
+    date_till: string # Верхняя граница даты создания (необязательный параметр)
+* Можно добавить прочие параметры для фильтрации выборки
+Параметры ответа:
+[
+    {
+        id: integer,
+        uuid: uuid,
+        status: string,
+        out_address: string,            # Кошелёк получателя
+        in_currency_name: string,       # Название входящей валюты
+        in_currency_blockchain: string
+        amount: string,                 # Входящая сумма
+        out_address: string,            # Кошелёк получателя
+        out_currency_name: string,      # Название исходящей валюты
+        out_currency_blockchain: string,
+        out_amount: string,             # Сколько получит получатель
+        in_tx_id: string,               # id транзакции при поступлении денег с in_wallet_id
+        out_tx_id: string               # id транзакции при отправке денег на out_wallet_id
+   }
+]
+
+GET /api/v1/operations/:uuid/logs
+Получить список изменений операций (только для администраторов)
+Параметры запроса:
+    uuid: uuid
+Параметры ответа:
+[
+    {
+        created_at: string,
+        changed_from: json,
+        changed_to: json
+    }
+]
+
+PATCH /api/v1/operations/:uuid
+Обновить данные операции (только для администраторов)
+Параметры запроса:
+    uuid: uuid,
+    status: string,
+    in_tx_id: string,
+    out_tx_id: string
+Параметры ответа: совпадают с GET /api/v1/operations/:uuid
+
+GET /api/v1/wallets
+Получить список кошельков (только для администраторов)
+Параметры запроса:
+    page: integer,
+    currency_id: integer
+Параметры ответа:
+[
+    {
+        id: integer,
+        currency_id: integer,
+        blockchain: string,
+        currency_name: string,
+        address: string,
+        is_administrative: boolean
+    }
+]
+
+GET /api/v1/wallets/:id
+Получить баланс кошелька (только для администраторов)
+Параметры запроса:
+    id: integer
+Параметры ответа:
+{
+    id: integer,
+    currency_id: integer,
+    blockchain: string,
+    currency_name: string,
+    address: string,
+    balance: string,
+    is_administrative: boolean
+}
+
+
+Примечания:
+Ответы можно привести к формату JSONAPI (https://jsonapi.org),
+я их описал в таком виде для краткости.

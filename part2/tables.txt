@@ -1,0 +1,36 @@
+currencies
+    id (serial)         PK
+    blockchain (varchar)
+    sign (varchar)      Обозначение (BTC, USDT, etc)
+
+wallets
+    id (serial)         PK
+    currency_id (int)   FK -> currencies(id)
+    address (varchar)
+    administrative (bool)   Используется для административных целей (для конвертации)
+
+operations
+    id (serial)             PK
+    uuid (uuid)             Идентификатор для публичных целей
+    status (smallint)       Статус операции (enum, интерпретация значения — в модели)
+    created_at (datetime)
+    updated_at (datetime)
+    email (varchar)
+    in_currency_id (int)    FK -> currencies(id)    Входящая валюта
+    in_wallet_id (int)      FK -> wallets(id)       Входящий кошелёк (административный, для обмена)
+    amount (numeric(16,8))  Входящая сумма
+    out_currency_id (int)   FK -> currencies(id)    Исходящая валюта
+    rate (numeric(16,8))    Коэффициент обмена (out_amount = amount * rate)
+    out_wallet_id (int)     FK -> wallets(id)       Кошелёк получателя
+    exchange_fee (numeric(5,4)) Комиссия обмена в процентах
+    network_fee (numeric(16,8)) Комиссия сети в исходящей валюте
+    estimated_delay (int4range) Время ожидания поступления в минутах (можно разбить на два поля from, to или использовать enum)
+    in_tx_id (varchar)          id транзакции при поступлении денег с in_wallet_id
+    out_tx_id (varchar)         id транзакции при отправке денег на out_wallet_id
+
+operation_logs      Журнал изменений в операциях
+    id (serial)             PK
+    operation_id (int)      FK -> operations(id)
+    created_at (datetime)
+    changes_from (jsonb)    Изменяемые поля
+    changes_to   (jsonb)    Новые значения полей

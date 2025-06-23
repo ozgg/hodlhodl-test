@@ -26,3 +26,5 @@ docker-compose run --rm wallet generate # сгенерировать ключ (�
 docker-compose run --rm wallet balance # отобразить баланс кошелька
 docker-compose run --rm wallet transfer [address] [amount] # перевести на адрес [address] [amount] ьиткоинов
 ```
+
+Вторая часть находится в папке [part2](https://github.com/ozgg/hodlhodl-test/tree/master/part2).
